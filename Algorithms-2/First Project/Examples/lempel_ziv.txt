@@ -1,0 +1,25 @@
+LZ78 foi um dos algoritmos de compressão de dados desenvolvidos por Abraham Lempel e Jacob Ziv em 1978, juntamente com o outro algoritmo de compressão LZ77 publicado em 1977. Nos primeiros artigos publicados eles eram conhecidos por LZ1 e LZ2 (LZ77 e LZ78 respectivamente) e só depois ganharam o ano de sua publicação em suas siglas.[1]
+O algoritmo LZ78 se baseia na construção de um dicionário com os dados encontrados anteriormente no arquivo a ser comprimido. No início o dicionário se encontra vazio. A medida que o arquivo vai sendo lido, caractere por caractere, cada sequência de caracteres não encontrada no dicionário é introduzida no dicionário e ganha um código. As sequências que já se encontram no dicionário são substituídas pelo seu código no dicionário.
+Existem diversas variantes desse algoritmo, entre elas o LZW que se tornou famoso pela facilidade de implementação. Entretanto, várias partes tanto do LZ78 quanto do LZW estavam sujeitas a restrições por patentes, e por isso não puderam se tornar populares durante algum tempo.
+O algoritmo LZ78 usa um dicionário (que chamaremos de D) para armazenar as sequências de caracteres encontradas no arquivo, e usa os códigos (posição das sequências no dicionário, ou mesmo um número atribuído sequencialmente às sequências de caracteres encontradas).
+Ao ler um caractere do arquivo, procuramos em D para ver se ele já se encontra lá. Caso seja encontrado, lemos o próximo caractere, concatenamos no que já havíamos lido, e procuramos a nova sequência, agora de dois caracteres no dicionário. Enquanto as sequências já estiverem presentes no dicionário, o algoritmo continua lendo e concatenando. Finalmente, quando encontramos um caractere que concatenado à sequência não está presente no dicionário, emitimos na saída um par (Dseq, c) onde Dseq é o código da ultima sequência encontrada no dicionário e c é o caractere que "quebrou" a sequência. Depois de emitir o par na saída, introduzimos a nova sequência terminada em c no dicionário e começamos tudo novamente.
+Para que o algoritmo funcione precisamos de inserir inicialmente no dicionário (geralmente sob o código 0) a cadeia vazia (uma entrada no dicionário representando uma cadeia de tamanho zero). Assim, ao ler um caractere c nunca antes lido pelo programa, é emitido na saída o par (0, c).
+Um pseudo-código representando este algoritmo está a seguir:
+cadeia := '' # inicializa com a cadeia de tamanho 0
+D.insere(cadeia)
+enquanto c := leia_novo_caractere()
+   se D contém cadeia concatenada com c
+      cadeia := cadeia concatenada com c
+   senão
+      imprime_na_saida([D.código(cadeia), c])
+      D.insere(cadeia concatenada com c)
+      cadeia = ''
+   fim se
+ fim enquanto
+ imprime_na_saida([D.código(cadeia), ''])
+A decodificação se dá de forma similar, começamos com o dicionário apenas com o código para a cadeia vazia, e vamos lendo os pares de (Dseq, c). Para cada par lido, emitimos na saída a sequência presente no dicionário sob o código Dseq, concatenada com o caractere c. Em seguida adicionamos esta nova sequência no dicionário. Note que o algoritmo de manutenção do dicionário (atribuição de códigos às sequências) deve ser o mesmo no programa que codifica e no que decodifica, para não termos inconsistências.
+O clássico problema dos algoritmos baseados em dicionários é a memória necessária. Quanto mais lemos dados do arquivo, mais sequências armazenamos no dicionário, e com isso, necessitamos de mais memória. O outro problema que isso causa é de espaço de endereçamento: os códigos das entradas no dicionário crescem junto com ele (em geral ocupam {\displaystyle log_{2}(N)}{\displaystyle log_{2}(N)} bits, onde N é o tamanho, ou número de entradas, do dicionário). Várias abordagens podem ser adotadas para lidar com esse problema, as mais simples são:
+Congelamento do dicionário (quando o dicionário atinge o tamanho limite, ele fica "congelado" e mais nenhuma entrada pode ser adicionada nele).
+Esvaziamento (o dicionário é esvaziado e a compressão começa toda de novo). Essa técnica pressupõe que é mais vantajoso usar a redundância local que a redundância global para a compressão. corresponde a separar o arquivo em "blocos" comprimidos separadamente.
+Uso de uma política de esvaziamento que seja comum tanto ao compressor quanto ao descompressor (apagar entradas mais antigas, por exemplo).
+Outro problema, esse específico do LZ78, é o crescimento lento do dicionário. Devido a característica de inserir as cadeias no dicionário assim que um único caractere quebra a sequência faz com que o dicionário cresça de forma lenta e só se torne realmente útil depois de bastante informação lida. Esse problema torna o LZ78 e seus derivados pouco apropriado para comprimir quantidades muito pequenas de dados. A abordagem dada pelo LZ77 pode ser útil nos casos onde o crescimento lento do dicionário venha a reduzir a compressão.
