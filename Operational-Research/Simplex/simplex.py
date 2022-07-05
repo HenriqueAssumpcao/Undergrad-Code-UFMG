@@ -65,8 +65,8 @@ def simplex(A:np.array,b:np.array,c:np.array,aux_mode:bool=False,round_tolerance
                 return ("inviavel",unviable_certificate)
             
 
-            # Assumindo que A é viável e quadrada, checamos se a matriz é singular, caso positivo não é possível utilizar uma base
-            # que contém as colunas da matriz original, e portanto devemos utilizar como base inicial as demais colunas da PL em FPI
+            # Assumindo que A é viável, checamos se a sub-matriz quadrada básica é singular, caso positivo não é possível utilizar uma base
+            # que contém as colunas da matriz original que são L.D., e portanto devemos utilizar como base inicial as demais colunas da PL em FPI
             if np.round(np.linalg.det(A_tab[:,curr_basis]),round_tolerance) == 0:
                 curr_basis = np.array([*range(A.shape[1],A_tab.shape[1])])
                 
