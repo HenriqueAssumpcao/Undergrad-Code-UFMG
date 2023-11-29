@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package functions;
+
+// Tipos de Mensagens 
+message IntMessage{ // Mensagem com atributo Int
+    int32 int_attr = 1;
+}
+
+message StrMessage{ // Mensagem com atributo String
+    string str_attr = 1;
+}
+
+message IntStrMessage{ // Mensagem com atributos Int e String
+    int32 int_attr = 1;
+    string str_attr = 2;
+}
+
+message StrRepeatedIntMessage{ // Mensagem com atributo String e atributo Repeated Int (lista de inteiros)
+    string str_attr = 1;
+    repeated int32 int_attrs = 2;
+}
+
+message VoidMessage{} // Mensagem sem atributo
+
+// Tipos de Serviços
+service ServPeer{
+    // Funções implementadas pelo servidor par
+    rpc insert_key(IntStrMessage) returns (IntMessage) {} // Operação I,ch,string de descrição
+    rpc query(IntMessage) returns (StrMessage) {} // Operação C,ch
+    rpc activate(StrMessage) returns (IntMessage) {} // Operação A,string identificador de um serviço
+    rpc terminate(VoidMessage) returns (IntMessage) {} // Operação T
+}
+
+service ServCentral{
+    // Funções implementadas pelo servidor central
+    rpc register(StrRepeatedIntMessage) returns (IntMessage) {} // Operação registro
+    rpc map(IntMessage) returns (StrMessage) {} // Operação mapeamento
+    rpc terminate(VoidMessage) returns (IntMessage) {} // Operação término
+}
