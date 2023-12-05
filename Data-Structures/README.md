@@ -1,6 +1,8 @@
 # Estruturas de Dados (Data Structures)
 I took this course during my 2nd year at UFMG.
 
+All projects are implemented in C++.
+
 The first project consists of an implementation of a fictional consciousness transfer system, that uses multiple linked lists to represent an array of buffers storing users data.
 
 The second project consists of an implementation of four different sorting algorithms(Quicksort, Merge sort, Radix sort, Heapsort) to order a given input file.
