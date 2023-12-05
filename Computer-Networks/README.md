@@ -5,3 +5,4 @@ The first project is a C implementation of the Minesweeper game via a simple ser
 
 The second project is a C implementation of an online forum using a central server with multiple connected clients via the TCP protocol. The clients can create new blog posts and interact with each other, and the implementation mainly uses the socket and pthreads libraries for C.
 
+Both projects have documentations (in portuguese) that can be found in their respective Docs.pdf files.
