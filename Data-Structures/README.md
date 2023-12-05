@@ -1,11 +1,11 @@
-# Data-Structures-UFMG
-My implementations for the course in Data Structures.
-## First Project
-An implementation of a fictional consciousness transfer system, that uses multiple linked lists to represent an array of buffers storing users data.
-More info on how to use the system can be found inside the project's folder.
-## Second Project
-An implementation of four different sorting algorithms(Quicksort, Merge sort, Radix sort, Heapsort) to order a given input file.
-More info on how to use the system can be found inside the project's folder.
-## Third Project
-An implementation of a binary search tree.
-More info on how to use the system can be found inside the project's folder.
+# Estruturas de Dados (Data Structures)
+I took this course during my 2nd year at UFMG.
+
+The first project consists of an implementation of a fictional consciousness transfer system, that uses multiple linked lists to represent an array of buffers storing users data.
+
+The second project consists of an implementation of four different sorting algorithms(Quicksort, Merge sort, Radix sort, Heapsort) to order a given input file.
+
+The third project consists of an implementation of a binary search tree.
+
+More information about each project can be found inside their respective folder.
+
